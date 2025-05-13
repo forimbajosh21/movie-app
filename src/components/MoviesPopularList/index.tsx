@@ -19,7 +19,7 @@ const MoviesPopularList = () => {
   return (
     <View>
       <Text variant="heading-medium" color="primary" style={styles.title}>
-        Upcoming
+        Popular
       </Text>
       <MovieList list={isError ? [] : (data?.results as Movie[])} />
     </View>
