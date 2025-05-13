@@ -10,7 +10,14 @@ import {
   ThemeProvider,
 } from '@react-navigation/native';
 import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'react-native';
+import { Provider } from 'react-redux';
+
+import { Colors } from '@/src/constants/Colors';
+import { setupStore } from '@/src/store';
+
+const store = setupStore();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -28,8 +35,24 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack />
-    </ThemeProvider>
+    <Provider store={store}>
+      <StatusBar style="light" />
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{
+              title: 'What do you want to watch?',
+              headerTitleStyle: {
+                fontFamily: 'Poppins_600SemiBold',
+                fontSize: 18,
+                color: Colors.light.text.primary,
+              },
+              headerTransparent: true,
+            }}
+          />
+        </Stack>
+      </ThemeProvider>
+    </Provider>
   );
 }
