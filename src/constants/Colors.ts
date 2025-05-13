@@ -1,7 +1,7 @@
 export const Colors = {
   light: {
     background: {
-      main: '#1C1C1E',
+      main: '#242A32',
       card: '#2C2C2E',
       searchBar: '#2C2C2E',
     },
@@ -11,6 +11,10 @@ export const Colors = {
     },
     highlight: {
       tabUnderline: '#3A3F47',
+    },
+    search: {
+      placeholderText: '#67686D',
+      icon: '#67686D',
     },
   },
   dark: {
@@ -25,6 +29,10 @@ export const Colors = {
     },
     highlight: {
       tabUnderline: '#3A3F47',
+    },
+    search: {
+      placeholderText: '#67686D',
+      icon: '#67686D',
     },
   },
 };
