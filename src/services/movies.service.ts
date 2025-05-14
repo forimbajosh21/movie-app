@@ -5,9 +5,9 @@ import {
   shouldUpcomingOnly,
 } from '@/src/utils/movies';
 
-import { Movie } from '@/src/types/Movie';
+import { Movie, MovieDetail, MovieDetailVideo } from '@/src/types/Movie';
 
-interface GetNowPlayingUpcomingTopRatedPopularMoviesResponse {
+interface GetNowPlayingUpcomingTopRatedPopularResponse {
   dates: {
     maximum: string;
     minimum: string;
@@ -16,18 +16,23 @@ interface GetNowPlayingUpcomingTopRatedPopularMoviesResponse {
   results: Movie[];
 }
 
-interface GetNowPlayingUpcomingTopRatedPopularMoviesParams {
+interface GetNowPlayingUpcomingTopRatedPopularParams {
   language?: string;
   page?: number;
   /** ISO-3166-1 code */
   region?: string;
 }
 
+interface GetVideosResponse {
+  id: number;
+  results: MovieDetailVideo[];
+}
+
 const moviesApi = api.injectEndpoints({
   endpoints: (build) => ({
     getNowPlaying: build.query<
-      GetNowPlayingUpcomingTopRatedPopularMoviesResponse,
-      GetNowPlayingUpcomingTopRatedPopularMoviesParams
+      GetNowPlayingUpcomingTopRatedPopularResponse,
+      GetNowPlayingUpcomingTopRatedPopularParams
     >({
       query: ({ language = 'en-US', page = 1, region = 'PH' }) => ({
         url: `/3/movie/now_playing?language=${language}&page=${page}&region=${region}`,
@@ -36,7 +41,7 @@ const moviesApi = api.injectEndpoints({
         },
       }),
       transformResponse(
-        baseQueryReturnValue: GetNowPlayingUpcomingTopRatedPopularMoviesResponse,
+        baseQueryReturnValue: GetNowPlayingUpcomingTopRatedPopularResponse,
         meta,
         arg,
       ) {
@@ -48,14 +53,14 @@ const moviesApi = api.injectEndpoints({
       },
     }),
     getUpcoming: build.query<
-      GetNowPlayingUpcomingTopRatedPopularMoviesResponse,
-      GetNowPlayingUpcomingTopRatedPopularMoviesParams
+      GetNowPlayingUpcomingTopRatedPopularResponse,
+      GetNowPlayingUpcomingTopRatedPopularParams
     >({
       query: ({ language = 'en-US', page = 1, region = 'PH' }) => ({
         url: `/3/movie/upcoming?language=${language}&page=${page}&region=${region}`,
       }),
       transformResponse(
-        baseQueryReturnValue: GetNowPlayingUpcomingTopRatedPopularMoviesResponse,
+        baseQueryReturnValue: GetNowPlayingUpcomingTopRatedPopularResponse,
         meta,
         arg,
       ) {
@@ -69,14 +74,14 @@ const moviesApi = api.injectEndpoints({
       },
     }),
     getTopRated: build.query<
-      GetNowPlayingUpcomingTopRatedPopularMoviesResponse,
-      GetNowPlayingUpcomingTopRatedPopularMoviesParams
+      GetNowPlayingUpcomingTopRatedPopularResponse,
+      GetNowPlayingUpcomingTopRatedPopularParams
     >({
       query: ({ language = 'en-US', page = 1, region = 'PH' }) => ({
         url: `/3/movie/top_rated?language=${language}&page=${page}&region=${region}`,
       }),
       transformResponse(
-        baseQueryReturnValue: GetNowPlayingUpcomingTopRatedPopularMoviesResponse,
+        baseQueryReturnValue: GetNowPlayingUpcomingTopRatedPopularResponse,
         meta,
         arg,
       ) {
@@ -88,14 +93,14 @@ const moviesApi = api.injectEndpoints({
       },
     }),
     getPopular: build.query<
-      GetNowPlayingUpcomingTopRatedPopularMoviesResponse,
-      GetNowPlayingUpcomingTopRatedPopularMoviesParams
+      GetNowPlayingUpcomingTopRatedPopularResponse,
+      GetNowPlayingUpcomingTopRatedPopularParams
     >({
       query: ({ language = 'en-US', page = 1, region = 'PH' }) => ({
         url: `/3/movie/popular?language=${language}&page=${page}&region=${region}`,
       }),
       transformResponse(
-        baseQueryReturnValue: GetNowPlayingUpcomingTopRatedPopularMoviesResponse,
+        baseQueryReturnValue: GetNowPlayingUpcomingTopRatedPopularResponse,
         meta,
         arg,
       ) {
@@ -105,6 +110,16 @@ const moviesApi = api.injectEndpoints({
           results: results.filter(shouldContainTitleAndPoster),
         };
       },
+    }),
+    getDetails: build.query<MovieDetail, number>({
+      query: (id, language = 'en-US') => ({
+        url: `/3/movie/${id}?language=${language}`,
+      }),
+    }),
+    getVideos: build.query<GetVideosResponse, number>({
+      query: (id, language = 'en-US') => ({
+        url: `/3/movie/${id}/videos`,
+      }),
     }),
   }),
 });
@@ -118,5 +133,9 @@ export const {
   useLazyGetTopRatedQuery,
   useGetPopularQuery,
   useLazyGetPopularQuery,
+  useGetDetailsQuery,
+  useLazyGetDetailsQuery,
+  useGetVideosQuery,
+  useLazyGetVideosQuery,
 } = moviesApi;
 export default moviesApi;
