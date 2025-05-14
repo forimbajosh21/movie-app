@@ -18,9 +18,11 @@ const MovieList: React.FC<MovieListProps> = ({ list }) => {
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <MovieCard
+          id={item.id}
           title={item.title}
           releaseDate={item.release_date}
           posterPath={item.poster_path}
+          backdropPath={item.backdrop_path}
         />
       )}
       ItemSeparatorComponent={() => (
