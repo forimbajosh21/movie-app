@@ -11,6 +11,7 @@ export const Colors = {
     },
     highlight: {
       tabUnderline: '#3A3F47',
+      star: '#FF8700',
     },
     search: {
       placeholderText: '#67686D',

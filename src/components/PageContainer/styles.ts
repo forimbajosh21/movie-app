@@ -1,9 +1,9 @@
 import { Colors } from '@/src/constants/Colors';
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
+    height: Dimensions.get('screen').height,
     paddingHorizontal: 16,
     backgroundColor: Colors.light.background.main,
   },
