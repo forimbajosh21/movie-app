@@ -30,7 +30,7 @@ Before running the application, ensure you have the following installed:
 3. Create an `.env` file in the root directory and add the following environment variables:
 
    ```bash
-   EXPO_PUBLIC_API_URL=https://api.themoviedb.org/3
+   EXPO_PUBLIC_API_URL=https://api.themoviedb.org
    EXPO_PUBLIC_ASSET_URL=https://image.tmdb.org/t/p/original
    EXPO_PUBLIC_API_KEY=your_api_key_here
    ```
