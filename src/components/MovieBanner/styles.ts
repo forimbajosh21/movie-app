@@ -18,13 +18,18 @@ const styles = StyleSheet.create({
     bottom: 16,
     right: 16,
   },
-  player: {
+  playButtonContainer: {
     ...StyleSheet.absoluteFillObject,
-    top: 94,
+    top: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 1,
   },
-  playerContent: {
+  player: {
     ...StyleSheet.absoluteFillObject,
+    zIndex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
