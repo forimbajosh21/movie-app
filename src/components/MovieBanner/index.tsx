@@ -1,7 +1,7 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Image } from 'expo-image';
 import { useCallback, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { Linking, Platform, TouchableOpacity, View } from 'react-native';
 import ReAnimated, {
   useAnimatedStyle,
   withTiming,
@@ -10,7 +10,8 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 
 import StarRating, { StarRatingProps } from '@/src/components/StarRating';
 
-import { BANNER_HEIGHT } from '@/src/constants';
+import { BANNER_HEIGHT, YOUTUBE_WATCH_URL } from '@/src/constants';
+
 import styles from './styles';
 
 export interface MovieBannerProps extends StarRatingProps {
@@ -26,6 +27,11 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
   const [playing, setPlaying] = useState(false);
 
   function handlePlay() {
+    if (Platform.OS === 'android') {
+      Linking.openURL(YOUTUBE_WATCH_URL + videoSource);
+      return;
+    }
+
     setPlaying(true);
   }
 
@@ -72,35 +78,24 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
           style={styles.starRating}
         />
         {videoSource && (
-          <View
-            style={{
-              position: 'absolute',
-              top: 44,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-              zIndex: 1,
-            }}
-          >
+          <View style={styles.playButtonContainer}>
             <TouchableOpacity onPress={handlePlay} activeOpacity={0.7}>
               <AntDesign name="play" size={48} color="white" />
             </TouchableOpacity>
           </View>
         )}
       </ReAnimated.View>
-      <ReAnimated.View style={[styles.player, playerAnimatedStyle]}>
-        <View style={styles.playerContent}>
+      {Platform.OS === 'ios' && (
+        <ReAnimated.View style={[styles.player, playerAnimatedStyle]}>
           <YoutubePlayer
             width="100%"
-            height={BANNER_HEIGHT}
+            height={BANNER_HEIGHT / 2}
             play={playing}
             videoId={videoSource}
             onChangeState={handleOnChangeState}
           />
-        </View>
-      </ReAnimated.View>
+        </ReAnimated.View>
+      )}
     </View>
   );
 };
